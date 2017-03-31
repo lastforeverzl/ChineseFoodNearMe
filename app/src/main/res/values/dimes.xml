@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="map_margin_bottom">200dp</dimen>
+
+    <dimen name="textsize_very_small">9sp</dimen>
+    <dimen name="textsize_small">11sp</dimen>
+    <dimen name="textsize_medium">13sp</dimen>
+    <dimen name="textsize_big">16sp</dimen>
+    <dimen name="textsize_very_big">18sp</dimen>
+    <dimen name="textsize_huge">21sp</dimen>
+    <dimen name="textsize_very_huge">26sp</dimen>
+    <dimen name="textsize_enormous">36sp</dimen>
+
+    <dimen name="default_layout_margin_halved">8dp</dimen>
+    <dimen name="default_layout_margin">16dp</dimen>
+    <dimen name="default_layout_margin_quartered">4dp</dimen>
+
+    <dimen name="item_recycler_number_dimen">24dp</dimen>
 </resources>

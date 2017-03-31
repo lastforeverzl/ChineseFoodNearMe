@@ -1,80 +1,147 @@
 package com.zackyzhang.chinesefoodnearme.mvp;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.LatLng;
+import com.zackyzhang.chinesefoodnearme.App;
 import com.zackyzhang.chinesefoodnearme.MapBitmapCache;
 import com.zackyzhang.chinesefoodnearme.R;
+import com.zackyzhang.chinesefoodnearme.maps.PulseOverlayLayout;
 import com.zackyzhang.chinesefoodnearme.network.entity.Business;
 import com.zackyzhang.chinesefoodnearme.network.entity.SearchResponse;
+import com.zackyzhang.chinesefoodnearme.transition.ScaleDownImageTransition;
 
 import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * Created by lei on 3/29/17.
  */
 
 public class MapFragment extends MvpFragment<MapFragmentContract.View, MapFragmentContract.Presenter>
-        implements MapFragmentContract.View, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        implements MapFragmentContract.View, OnMapReadyCallback, HorizontalRecyclerViewScrollListener.OnShowScaleAnimationListener {
 
-    public static final String TAG = " ";
-    private static final String BUSSINESS_DATA = "BUSSINESS_DATA";
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+    public static final String TAG = "MapFragment";
 
+    private GoogleApiClient mGoogleApiClient;
     private SearchResponse mSearchResponse;
+    private Location mLastLocation;
     private List<Business> mBusinesses;
     private GoogleMap mMap;
+    private PlacesAdapter mPlacesAdapter;
+
+    @BindView(R.id.mapOverlayLayout)
+    PulseOverlayLayout mapOverlayLayout;
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerView;
 
     public static Fragment newInstance(Context context) {
         MapFragment fragment = new MapFragment();
-        ScaleDownImageTransition transition = new ScaleDownImageTransition(context, MapBitmapCache.instance().getBitmap());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Log.d(TAG, "run Bitmap transition");
+            ScaleDownImageTransition transition = new ScaleDownImageTransition(context, MapBitmapCache.instance().getBitmap());
+            transition.addTarget(context.getString(R.string.mapPlaceholderTransition));
+            transition.setDuration(600);
+            fragment.setEnterTransition(transition);
+        }
         return fragment;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient(null);
+        Log.d(TAG, mGoogleApiClient.toString());
         getBusinessData();
-        setupGoogleMap();
+        setupMapFragment();
+        setupRecyclerView();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        App.getGoogleApiHelper().disconnect();
     }
 
     private void getBusinessData() {
-//        Bundle bundle = getArguments();
-//        mSearchResponse = Parcels.unwrap(bundle.getParcelable(BUSSINESS_DATA));
-//        Log.d(TAG, "mSearchResponse: " + mSearchResponse.getTotal());
         presenter.provideBusinessData();
     }
 
-    private void setupGoogleMap() {
+    private void setupMapFragment() {
         ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment)).getMapAsync(this);
+    }
+
+    private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        mPlacesAdapter = new PlacesAdapter(getActivity());
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Log.d(TAG, "onMapReady");
+
+        mapOverlayLayout.setupMap(googleMap);
+        presenter.moveMapAndAddMarker();
+        attachData();
+    }
+
+    private void attachData() {
+        recyclerView.setAdapter(mPlacesAdapter);
+        mPlacesAdapter.setPlaceList(mBusinesses);
+        recyclerView.addOnScrollListener(new HorizontalRecyclerViewScrollListener(this));
     }
 
     @Override
     public void provideBusinessData(List<Business> places) {
         mBusinesses = places;
-        Log.d(TAG, "provideBusinessData: first business name: " + mBusinesses.get(0).getName());
+        Log.d(TAG, "provideBusinessData: first business name: " + mBusinesses.size());
     }
 
     @Override
-    public void moveMapAndAddMarker(LatLngBounds latLngBounds) {
-
+    public void moveMapAndAddMarker() {
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]
+                    {android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+        LocationAvailability locationAvailability = LocationServices.FusedLocationApi.getLocationAvailability(mGoogleApiClient);
+        if (null != locationAvailability && locationAvailability.isLocationAvailable()) {
+            mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (mLastLocation != null) {
+                LatLng currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
+            }
+        }
+        mapOverlayLayout.setOnCameraIdleListener(() -> {
+            for (int i = 0; i < mBusinesses.size(); i++) {
+                mapOverlayLayout.createAndShowMarker(i, mBusinesses.get(i).getCoordinates());
+            }
+            mapOverlayLayout.setOnCameraIdleListener(null);
+        });
+        mapOverlayLayout.setOnCameraMoveListener(mapOverlayLayout::refresh);
     }
 
     @Override
@@ -88,22 +155,7 @@ public class MapFragment extends MvpFragment<MapFragmentContract.View, MapFragme
     }
 
     @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
+    public void onShowAnimation(int position) {
+        mapOverlayLayout.showMarker(position);
     }
 }

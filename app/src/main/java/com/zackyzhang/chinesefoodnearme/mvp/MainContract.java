@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.zackyzhang.chinesefoodnearme.network.entity.SearchResponse;
 
 /**
  * Created by lei on 3/29/17.
@@ -15,7 +14,7 @@ public interface MainContract {
     interface View extends MvpContract.MvpView{
         void setMapLatLngBounds(final LatLngBounds latLngBounds);
 
-        void dataProvided(SearchResponse searchResponse);
+        void dataFinished();
     }
 
     interface Presenter extends MvpContract.MvpPresenter<View> {

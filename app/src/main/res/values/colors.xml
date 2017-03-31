@@ -3,4 +3,17 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="cardview_weather_start_color">#fab527</color>
+    <color name="cardview_weather_center_color">#f9e388</color>
+    <color name="cardview_weather_end_color">#efc74f</color>
+
+    <color name="cardview_timeline_start_color">#7ebdc2</color>
+    <color name="cardview_timeline_end_color">#91d3d9</color>
+
+    <color name="item_place_title">#2c3e51</color>
+    <color name="item_place_subtitle">#7f8c8d</color>
 </resources>

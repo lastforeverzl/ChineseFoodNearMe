@@ -1,6 +1,7 @@
 package com.zackyzhang.chinesefoodnearme;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.util.LruCache;
 
 /**
@@ -8,6 +9,7 @@ import android.util.LruCache;
  */
 
 public class MapBitmapCache extends LruCache<String, Bitmap> {
+    private static final String TAG = "MapBitmapCache";
     private static final int DEFAULT_CACHE_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024) / 8;
     public static final String KEY = "MAP_BITMAP_KEY";
 
@@ -25,17 +27,21 @@ public class MapBitmapCache extends LruCache<String, Bitmap> {
     public static MapBitmapCache instance() {
         if (sInstance == null) {
             sInstance = new MapBitmapCache(DEFAULT_CACHE_SIZE);
+            Log.d(TAG, sInstance.toString());
             return sInstance;
         }
+        Log.d(TAG, sInstance.toString());
         return sInstance;
     }
 
     public Bitmap getBitmap() {
+        Log.d(TAG, "get bitmap in getBitmap: " + get(KEY));
         return get(KEY);
     }
 
     public void putBitmap(Bitmap bitmap) {
         put(KEY, bitmap);
+        Log.d(TAG, "get bitmap after putBitmap: " + get(KEY));
     }
 
     @Override

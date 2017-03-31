@@ -12,18 +12,19 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/map_margin_bottom" />
 
-    <!--<com.zackyzhang.myworkcationdemo.maps.PulseOverlayLayout-->
-        <!--android:id="@+id/mapOverlayLayout"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:paddingBottom="@dimen/map_margin_bottom">-->
+    <com.zackyzhang.chinesefoodnearme.maps.PulseOverlayLayout
+        android:id="@+id/mapOverlayLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/map_margin_bottom">
 
-        <!--<ImageView-->
-            <!--android:id="@+id/mapPlaceholder"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:transitionName="@string/mapPlaceholderTransition"/>-->
-    <!--</com.zackyzhang.myworkcationdemo.maps.PulseOverlayLayout>-->
+        <ImageView
+            android:id="@+id/mapPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transitionName="@string/mapPlaceholderTransition"/>
+
+    </com.zackyzhang.chinesefoodnearme.maps.PulseOverlayLayout>
 
     <FrameLayout
         android:id="@+id/container"

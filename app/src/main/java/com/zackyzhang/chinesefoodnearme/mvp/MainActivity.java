@@ -3,15 +3,12 @@ package com.zackyzhang.chinesefoodnearme.mvp;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationAvailability;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,15 +16,17 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.zackyzhang.chinesefoodnearme.App;
+import com.zackyzhang.chinesefoodnearme.GoogleApiHelper;
 import com.zackyzhang.chinesefoodnearme.R;
-import com.zackyzhang.chinesefoodnearme.network.entity.SearchResponse;
+import com.zackyzhang.chinesefoodnearme.data.BusinessDataProvider;
 
 /**
  * Created by lei on 3/29/17.
  */
 
 public class MainActivity extends MvpActivity<MainContract.View, MainContract.Presenter>
-        implements MainContract.View, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        implements MainContract.View, OnMapReadyCallback, GoogleApiHelper.GoogleApiListener {
 
     private static final String TAG = "MainActivity";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -36,7 +35,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     private GoogleMap mMap;
     private Location mLastLocation;
     private LatLngBounds mLatLngBounds;
-    private SearchResponse mSearchResponse;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,35 +43,15 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
-        if (mGoogleApiClient == null) {
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
-        }
-    }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
+        mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient(this);
+        Log.d(TAG, mGoogleApiClient.toString());
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if( mGoogleApiClient != null && mGoogleApiClient.isConnected() ) {
-            mGoogleApiClient.disconnect();
-        }
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-        Log.d(TAG, "onConnected");
-        setUpMap();
-        getBusinessData();
+        App.getGoogleApiHelper().disconnect();
     }
 
     private void setUpMap() {
@@ -102,21 +80,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
     protected MainContract.Presenter createPresenter() {
         return new MainPresenter();
     }
@@ -137,14 +100,13 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     }
 
     @Override
-    public void dataProvided(SearchResponse searchResponse) {
-        this.mSearchResponse = searchResponse;
+    public void dataFinished() {
         navigateToMapFragment();
     }
 
     private void navigateToMapFragment() {
-        Log.d(TAG, "mSearchResponse is: " + mSearchResponse.getTotal());
-        if (getSupportFragmentManager().findFragmentByTag(MapFragment.TAG) == null && mSearchResponse != null) {
+        Log.d(TAG, "At the end of MainActivity, total number of SearchResponse: " + BusinessDataProvider.instance().getSearchResponse().getTotal());
+        if (getSupportFragmentManager().findFragmentByTag(MapFragment.TAG) == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
@@ -152,5 +114,11 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
                     .addToBackStack(MapFragment.TAG)
                     .commit();
         }
+    }
+
+    @Override
+    public void clientConnected() {
+        setUpMap();
+        getBusinessData();
     }
 }

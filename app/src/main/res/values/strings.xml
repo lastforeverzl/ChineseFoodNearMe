@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ChineseFoodNearMe</string>
+    <string name="mapPlaceholderTransition">mapPlaceholderTransition</string>
 </resources>

@@ -40,6 +40,10 @@ public class BusinessDataProvider {
         this.BusinessData = data;
     }
 
+    public SearchResponse getSearchResponse() {
+        return this.BusinessData;
+    }
+
     public List<Business> getBusinessData() {
         this.mBusinesses = new ArrayList<>();
         this.mBusinesses = this.BusinessData.getBusinesses();

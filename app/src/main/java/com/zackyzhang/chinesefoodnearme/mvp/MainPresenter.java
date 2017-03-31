@@ -36,6 +36,7 @@ public class MainPresenter extends MvpPresenter<MainContract.View> implements Ma
 
     @Override
     public void saveBitmap(Bitmap googleMap) {
+        Log.d(TAG, googleMap.toString());
         MapBitmapCache.instance().putBitmap(googleMap);
     }
 
@@ -76,8 +77,8 @@ public class MainPresenter extends MvpPresenter<MainContract.View> implements Ma
                         },
                         error -> Timber.tag(TAG).d(error.getMessage()),
                         () -> {
-                            getView().dataProvided(mSearchResponse);
                             BusinessDataProvider.instance().initialize(mSearchResponse);
+                            getView().dataFinished();
                         }
                 );
     }
