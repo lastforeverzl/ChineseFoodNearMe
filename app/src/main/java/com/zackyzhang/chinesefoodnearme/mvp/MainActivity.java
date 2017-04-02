@@ -3,9 +3,11 @@ package com.zackyzhang.chinesefoodnearme.mvp;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationAvailability;
@@ -49,6 +51,12 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        App.getGoogleApiHelper().connect();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         App.getGoogleApiHelper().disconnect();
@@ -57,8 +65,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     private void setUpMap() {
         if (ActivityCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]
-                    {android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
             return;
         }
         mMap.setMyLocationEnabled(true);
@@ -87,6 +93,7 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Log.d(TAG, "Map Ready");
     }
 
     @Override
@@ -118,7 +125,53 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
 
     @Override
     public void clientConnected() {
+        if (ActivityCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]
+                    {android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION_PERMISSION_REQUEST_CODE);
+            return;
+        }
         setUpMap();
         getBusinessData();
+    }
+
+    public void superOnBackPressed() {
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("FragmentBackStack", "getBackStackEntryCount: " + getSupportFragmentManager().getBackStackEntryCount());
+        for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
+            Log.d("FragmentBackStack", "fragment name in backstack: " + getSupportFragmentManager().getBackStackEntryAt(i).getName());
+        }
+        if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
+            triggerFragmentBackPress(getSupportFragmentManager().getBackStackEntryCount());
+        } else {
+            Log.d("FragmentBackStack", "call activity finish");
+            finish();
+        }
+    }
+
+    private void triggerFragmentBackPress(final int count) {
+        Log.d("FragmentBackStack", "trigger: " + getSupportFragmentManager().getBackStackEntryAt(count - 1).getName());
+        ((MvpFragment)getSupportFragmentManager().findFragmentByTag(getSupportFragmentManager().getBackStackEntryAt(count - 1).getName())).onBackPressed();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestPermissionsResult called");
+                    setUpMap();
+                    getBusinessData();
+                } else {
+                    Toast.makeText(MainActivity.this, "LOCATION_PERMISSION Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 }

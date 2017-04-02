@@ -8,7 +8,7 @@
     <dimen name="textsize_big">16sp</dimen>
     <dimen name="textsize_very_big">18sp</dimen>
     <dimen name="textsize_huge">21sp</dimen>
-    <dimen name="textsize_very_huge">26sp</dimen>
+    <dimen name="textsize_very_huge">20sp</dimen>
     <dimen name="textsize_enormous">36sp</dimen>
 
     <dimen name="default_layout_margin_halved">8dp</dimen>
@@ -16,4 +16,5 @@
     <dimen name="default_layout_margin_quartered">4dp</dimen>
 
     <dimen name="item_recycler_number_dimen">24dp</dimen>
+    <dimen name="item_place_details_height">380dp</dimen>
 </resources>

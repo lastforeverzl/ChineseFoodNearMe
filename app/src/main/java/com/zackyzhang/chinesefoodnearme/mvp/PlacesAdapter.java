@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.zackyzhang.chinesefoodnearme.R;
 import com.zackyzhang.chinesefoodnearme.network.entity.Business;
+import com.zackyzhang.chinesefoodnearme.transition.TransitionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +26,19 @@ import butterknife.ButterKnife;
 
 public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder> {
 
+    public interface OnPlaceClickListener {
+        void onPlaceClicked(View sharedImage, String transitionName, final int position);
+    }
+
     private LayoutInflater mLayoutInflater;
     private List<Business> placeList = new ArrayList<>();
     private Context context;
+    private OnPlaceClickListener listener;
 
-    public PlacesAdapter(Context context) {
+    public PlacesAdapter(Context context, OnPlaceClickListener listener) {
         this.context = context;
         this.mLayoutInflater = LayoutInflater.from(context);
+        this.listener = listener;
     }
 
     @Override
@@ -46,6 +53,7 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         holder.rating.setText(String.valueOf(placeList.get(position).getRating()));
         holder.price.setText(String.valueOf(placeList.get(position).getPrice()));
         Picasso.with(context).load(placeList.get(position).getImageUrl()).fit().into(holder.placePhoto);
+        holder.root.setOnClickListener(view -> listener.onPlaceClicked(holder.root, TransitionUtils.getRecyclerViewTransition(position), position));
     }
 
     @Override
@@ -62,11 +70,11 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
 
     public class PlacesViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.title) TextView title;
-        @BindView(R.id.price) TextView price;
-        @BindView(R.id.rating) TextView rating;
-        @BindView(R.id.root) CardView root;
-        @BindView(R.id.headerImage) ImageView placePhoto;
+        @BindView(R.id.rv_title) TextView title;
+        @BindView(R.id.rv_price) TextView price;
+        @BindView(R.id.rv_rating) TextView rating;
+        @BindView(R.id.rv_root) CardView root;
+        @BindView(R.id.rv_headerImage) ImageView placePhoto;
 
         public PlacesViewHolder(View itemView) {
             super(itemView);

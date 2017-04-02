@@ -20,4 +20,9 @@ public class MapFragmentPresenter extends MvpPresenter<MapFragmentContract.View>
     public void moveMapAndAddMarker() {
         getView().moveMapAndAddMarker();
     }
+
+    @Override
+    public void onBackPressedWithScene() {
+        getView().onBackPressedWithScene();
+    }
 }

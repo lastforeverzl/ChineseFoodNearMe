@@ -2,6 +2,7 @@ package com.zackyzhang.chinesefoodnearme.maps;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.location.Location;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -9,7 +10,7 @@ import android.widget.FrameLayout;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.Projection;
-import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +37,16 @@ public class MapOverlayLayout<V extends MarkerView> extends FrameLayout {
         this.googleMap = googleMap;
     }
 
-    public void moveCamera(LatLngBounds latLngBounds, int width, int height) {
-        Log.d("MapDetailPresenter", latLngBounds.toString());
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, width, height, 150));
+    public void moveCamera(Location location) {
+        Log.d("MapDetailPresenter", location.toString());
+        LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
+    }
+
+    public void showAllMarkers() {
+        for (int i = 0; i < markersList.size(); i++) {
+            markersList.get(i).show();
+        }
     }
 
     public void setOnCameraIdleListener(GoogleMap.OnCameraIdleListener listener) {

@@ -16,7 +16,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         Timber.plant(new Timber.DebugTree());
         sInstance = this;
         googleApiHelper = GoogleApiHelper.instance(sInstance);
@@ -33,6 +32,7 @@ public class App extends Application {
     public static GoogleApiHelper getGoogleApiHelper() {
         return getInstance().getGoogleApiHelperInstance();
     }
+
 
 
 }

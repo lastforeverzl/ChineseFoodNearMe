@@ -62,7 +62,7 @@ public class MainPresenter extends MvpPresenter<MainContract.View> implements Ma
 
     private void createService(AccessToken accessToken, double currentLatitude, double currentLongitude) {
         Map<String, String> params = new HashMap<>();
-        params.put("term", "indian food");
+        params.put("term", "chinese food");
         params.put("latitude", String.valueOf(currentLatitude));
         params.put("longitude", String.valueOf(currentLongitude));
         mYelpFusionApiService = ServiceGenerator.createService(YelpFusionApiService.class, accessToken);

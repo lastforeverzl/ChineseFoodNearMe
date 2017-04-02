@@ -56,6 +56,8 @@ public class Business {
     List<CategoriesBean> categories;
     @SerializedName("transactions")
     List<String> transactions;
+    @SerializedName("display_phone")
+    String displayPhone;
 
     public double getRating() {
         return rating;
@@ -167,6 +169,14 @@ public class Business {
 
     public void setTransactions(List<String> transactions) {
         this.transactions = transactions;
+    }
+
+    public String getDisplayPhone() {
+        return displayPhone;
+    }
+
+    public void setDisplayPhone(String displayPhone) {
+        this.displayPhone = displayPhone;
     }
 
     @Parcel

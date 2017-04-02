@@ -14,12 +14,16 @@ public interface MapFragmentContract {
         void provideBusinessData(List<Business> places);
 
         void moveMapAndAddMarker();
+
+        void onBackPressedWithScene();
     }
 
     interface Presenter extends MvpContract.MvpPresenter<View> {
         void provideBusinessData();
 
         void moveMapAndAddMarker();
+
+        void onBackPressedWithScene();
     }
 
 }

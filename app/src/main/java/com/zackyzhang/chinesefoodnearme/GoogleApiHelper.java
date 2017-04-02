@@ -30,7 +30,6 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
     public GoogleApiHelper(Context context) {
         this.context = context;
         buildGoogleApiClient();
-        connect();
     }
 
     public static GoogleApiHelper instance(Context context) {
@@ -56,10 +55,10 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
         Log.d(TAG, mGoogleApiClient.toString());
     }
 
-    private void connect() {
+    public void connect() {
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
-            Timber.tag(TAG).d("connect.");
+            Timber.tag(TAG).d("connect: " + mGoogleApiClient.toString());
         }
     }
 

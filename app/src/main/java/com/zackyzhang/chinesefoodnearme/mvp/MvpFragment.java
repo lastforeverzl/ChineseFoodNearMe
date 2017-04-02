@@ -41,6 +41,8 @@ public abstract class MvpFragment<V extends MvpContract.MvpView, P extends MvpCo
         super.onDestroyView();
     }
 
+    public abstract void onBackPressed();
+
     protected abstract P createPresenter();
 
     @LayoutRes

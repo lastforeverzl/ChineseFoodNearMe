@@ -2,6 +2,7 @@ package com.zackyzhang.chinesefoodnearme.maps;
 
 import android.content.Context;
 import android.graphics.Point;
+import android.location.Location;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -42,5 +43,13 @@ public class PulseOverlayLayout extends MapOverlayLayout {
 
     public void showMarker(final int position) {
         ((PulseMarkerView)markersList.get(position)).pulse();
+    }
+
+    public void onBackPressed(final Location location) {
+        moveCamera(location);
+//        removeStartAndFinishMarkers();
+//        removeCurrentPolyline();
+        showAllMarkers();
+        refresh();
     }
 }
