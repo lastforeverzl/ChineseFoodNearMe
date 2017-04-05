@@ -18,6 +18,8 @@ public class PulseOverlayLayout extends MapOverlayLayout {
     private static final int ANIMATION_DELAY_FACTOR = 100;
 
     private int scaleAnimationDelay = 100;
+    private PulseMarkerView startMarker;
+    private TravelTimeMarkerView finishMarker;
 
     public PulseOverlayLayout(Context context) {
         super(context);
@@ -47,9 +49,38 @@ public class PulseOverlayLayout extends MapOverlayLayout {
 
     public void onBackPressed(final Location location) {
         moveCamera(location);
-//        removeStartAndFinishMarkers();
-//        removeCurrentPolyline();
+        removeStartAndFinishMarkers();
+        removeCurrentPolyline();
         showAllMarkers();
         refresh();
     }
+
+    private void removeStartAndFinishMarkers() {
+        removeFinishMarker();
+    }
+
+    public void drawStartAndFinishMarker(String duration) {
+        addFinishMarker((LatLng) polylines.get(polylines.size() - 1), duration);
+        setOnCameraIdleListener(null);
+    }
+
+    public void addFinishMarker(final LatLng latLng, String duration) {
+        finishMarker = createTravelTimeMarkerView(latLng, duration);
+        finishMarker.updatePulseViewLayoutParams(googleMap.getProjection().toScreenLocation(latLng));
+        addMarker(finishMarker);
+        finishMarker.show();
+    }
+
+    private PulseMarkerView createPulseMarkerView(final LatLng latLng) {
+        return new PulseMarkerView(getContext(), latLng, googleMap.getProjection().toScreenLocation(latLng));
+    }
+
+    private TravelTimeMarkerView createTravelTimeMarkerView(final LatLng latLng, String duration) {
+        return new TravelTimeMarkerView(getContext(), latLng, googleMap.getProjection().toScreenLocation(latLng), duration);
+    }
+
+    public void removeFinishMarker() {
+        removeMarker(finishMarker);
+    }
+
 }

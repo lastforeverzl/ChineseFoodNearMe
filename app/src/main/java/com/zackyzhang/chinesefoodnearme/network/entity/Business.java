@@ -29,7 +29,7 @@ public class Business {
      */
 
     @SerializedName("rating")
-    double rating;
+    float rating;
     @SerializedName("price")
     String price;
     @SerializedName("phone")
@@ -59,11 +59,11 @@ public class Business {
     @SerializedName("display_phone")
     String displayPhone;
 
-    public double getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

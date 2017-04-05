@@ -50,9 +50,12 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
     @Override
     public void onBindViewHolder(PlacesViewHolder holder, int position) {
         holder.title.setText(placeList.get(position).getName());
-        holder.rating.setText(String.valueOf(placeList.get(position).getRating()));
-        holder.price.setText(String.valueOf(placeList.get(position).getPrice()));
         Picasso.with(context).load(placeList.get(position).getImageUrl()).fit().into(holder.placePhoto);
+        float rating = placeList.get(position).getRating();
+        setYelpRating(holder, rating);
+        holder.number.setText(String.valueOf(position + 1));
+        holder.price.setText(placeList.get(position).getPrice());
+        holder.rating.setText("Based on " + placeList.get(position).getReviewCount() + " reviews");
         holder.root.setOnClickListener(view -> listener.onPlaceClicked(holder.root, TransitionUtils.getRecyclerViewTransition(position), position));
     }
 
@@ -68,13 +71,28 @@ public class PlacesAdapter extends RecyclerView.Adapter<PlacesAdapter.PlacesView
         }
     }
 
+    private void setYelpRating(PlacesViewHolder holder, float rating) {
+        if (rating == 0) holder.yelpRating.setImageResource(R.drawable.stars_small_0);
+        else if (rating == 1) holder.yelpRating.setImageResource(R.drawable.stars_small_1);
+        else if (rating == 1.5) holder.yelpRating.setImageResource(R.drawable.stars_small_1_half);
+        else if (rating == 2) holder.yelpRating.setImageResource(R.drawable.stars_small_2);
+        else if (rating == 2.5) holder.yelpRating.setImageResource(R.drawable.stars_small_2_half);
+        else if (rating == 3) holder.yelpRating.setImageResource(R.drawable.stars_small_3);
+        else if (rating == 3.5) holder.yelpRating.setImageResource(R.drawable.stars_small_3_half);
+        else if (rating == 4) holder.yelpRating.setImageResource(R.drawable.stars_small_4);
+        else if (rating == 4.5) holder.yelpRating.setImageResource(R.drawable.stars_small_4_half);
+        else if (rating == 5) holder.yelpRating.setImageResource(R.drawable.stars_small_5);
+    }
+
     public class PlacesViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.rv_title) TextView title;
-        @BindView(R.id.rv_price) TextView price;
-        @BindView(R.id.rv_rating) TextView rating;
+        @BindView(R.id.yelp_ratingbar) ImageView yelpRating;
+        @BindView(R.id.rating) TextView rating;
         @BindView(R.id.rv_root) CardView root;
         @BindView(R.id.rv_headerImage) ImageView placePhoto;
+        @BindView(R.id.price) TextView price;
+        @BindView(R.id.rv_number) TextView number;
 
         public PlacesViewHolder(View itemView) {
             super(itemView);

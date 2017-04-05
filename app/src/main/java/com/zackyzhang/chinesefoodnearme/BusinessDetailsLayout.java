@@ -34,16 +34,11 @@ public class BusinessDetailsLayout extends CoordinatorLayout {
     ImageView imageViewPlaceDetails;
     @BindView(R.id.title)
     TextView textViewTitle;
-    @BindView(R.id.rating)
-    TextView rating;
-    @BindView(R.id.priceTitle)
-    TextView priceTitle;
-    @BindView(R.id.phone)
-    TextView phoneNumber;
 
     private static Activity mActivity;
     private static double mLatitude;
     private static double mLongitude;
+    private String yelpUrl;
 
     public BusinessDetailsLayout(final Context context) {
         this(context, null);
@@ -64,9 +59,7 @@ public class BusinessDetailsLayout extends CoordinatorLayout {
         mLongitude = place.getCoordinates().getLongitude();
         Picasso.with(mActivity).load(place.getImageUrl()).fit().into(imageViewPlaceDetails);
         textViewTitle.setText(place.getName());
-        rating.setText(ratingTextView(place));
-        priceTitle.setText(place.getPrice());
-        phoneNumber.setText(place.getDisplayPhone());
+        yelpUrl = place.getUrl();
     }
 
     public static Scene showScene(Activity activity, final ViewGroup container, final View sharedView, final String transitionName, final Business data) {
@@ -89,19 +82,27 @@ public class BusinessDetailsLayout extends CoordinatorLayout {
         return scene;
     }
 
-    private String ratingTextView(Business business) {
-        return business.getRating() + " " + business.getReviewCount() + " reviews";
-    }
-
     @OnClick(R.id.takeMe)
-    public void onClick() {
+    public void onClickNavigation() {
         googleNavigation();
     }
 
+    @OnClick(R.id.descriptionLayout)
+    public void onClickYelp() {
+        goToYelp();
+    }
     private void googleNavigation() {
         Uri gmmIntentUri = Uri.parse("google.navigation:q=" + mLatitude + "," + mLongitude);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         mActivity.startActivity(mapIntent);
     }
+
+    private void goToYelp() {
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(yelpUrl));
+        mActivity.startActivity(i);
+    }
+
 }
+

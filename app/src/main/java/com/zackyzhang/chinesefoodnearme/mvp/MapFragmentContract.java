@@ -1,7 +1,11 @@
 package com.zackyzhang.chinesefoodnearme.mvp;
 
+import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.zackyzhang.chinesefoodnearme.network.entity.Business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,6 +20,10 @@ public interface MapFragmentContract {
         void moveMapAndAddMarker();
 
         void onBackPressedWithScene();
+
+        void drawPolylinesOnMap(ArrayList<LatLng> polylines);
+
+        void updateMapZoomAndRegion(LatLng northeastLatLng, LatLng southwestLatLng, String duration);
     }
 
     interface Presenter extends MvpContract.MvpPresenter<View> {
@@ -24,6 +32,8 @@ public interface MapFragmentContract {
         void moveMapAndAddMarker();
 
         void onBackPressedWithScene();
+
+        void getRoutePoints(Location current, int position);
     }
 
 }

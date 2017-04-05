@@ -31,7 +31,8 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/default_layout_margin"
+            android:padding="@dimen/default_layout_margin_halved"
+            android:layout_marginStart="@dimen/default_layout_margin_halved"
             android:text="MONKEY FOREST"
             android:textColor="@color/item_place_title"
             android:textSize="@dimen/textsize_very_huge"
@@ -40,70 +41,45 @@
 
         <LinearLayout
             android:id="@+id/descriptionLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/default_layout_margin"
+            android:layout_marginStart="@dimen/default_layout_margin_halved"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/clock"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_clock" />
-
-            <TextView
-                android:id="@+id/rating"
+                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/default_layout_margin_quartered"
-                android:layout_marginStart="@dimen/default_layout_margin_quartered"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:text="4 165 reviews"
-                android:textColor="@color/item_place_details_subtitle"
-                android:textSize="@dimen/textsize_big" />
+                android:layout_height="match_parent"
+                android:src="@mipmap/ic_yelp_logo"/>
 
-            <ImageView
-                android:id="@+id/priceImage"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_price" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="2">
 
-            <TextView
-                android:id="@+id/priceTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/default_layout_margin_quartered"
-                android:layout_marginStart="@dimen/default_layout_margin_quartered"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:text="$$"
-                android:textColor="@color/item_place_details_subtitle"
-                android:textSize="@dimen/textsize_big" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/default_layout_margin_quartered"
+                    android:layout_marginStart="@dimen/default_layout_margin_quartered"
+                    android:text="Yelp"
+                    android:textColor="@color/item_place_details_subtitle"
+                    android:textSize="@dimen/textsize_big"
+                    android:layout_weight="1"/>
 
-            <ImageView
-                android:id="@+id/scooter"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_scooter" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/default_layout_margin_quartered"
+                    android:layout_marginStart="@dimen/default_layout_margin_quartered"
+                    android:layout_weight="1"
+                    android:text="Read more on Yelp"
+                    android:textColor="@color/item_place_subtitle"
+                    android:textSize="@dimen/textsize_big"/>
 
-            <TextView
-                android:id="@+id/phone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/default_layout_margin_quartered"
-                android:layout_marginStart="@dimen/default_layout_margin_quartered"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:text="(925) 803-8982"
-                android:textColor="@color/item_place_details_subtitle"
-                android:textSize="@dimen/textsize_big" />
+            </LinearLayout>
 
         </LinearLayout>
 

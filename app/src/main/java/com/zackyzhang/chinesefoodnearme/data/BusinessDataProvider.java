@@ -55,4 +55,12 @@ public class BusinessDataProvider {
         LatLng northeast = SphericalUtil.computeOffset(center, radius * Math.sqrt(2.0), 45);
         return new LatLngBounds(southwest, northeast);
     }
+
+    public double getLatByPosition(int position) {
+        return mBusinesses.get(position).getCoordinates().getLatitude();
+    }
+
+    public double getLngByPosition(int position) {
+        return mBusinesses.get(position).getCoordinates().getLongitude();
+    }
 }

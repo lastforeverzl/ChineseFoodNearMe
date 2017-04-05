@@ -50,7 +50,8 @@ public class MainPresenter extends MvpPresenter<MainContract.View> implements Ma
     }
 
     private void getAccessToken(double currentLatitude, double currentLongitude) {
-        mYelpFusionAuthService = ServiceGenerator.getAccessToken();
+//        mYelpFusionAuthService = ServiceGenerator.getAccessToken();
+        mYelpFusionAuthService = ServiceGenerator.createService(YelpFusionAuthService.class);
         mYelpFusionAuthService.getAccessToken("client_credentials", CLIENT_ID, CLIENT_SECRET)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

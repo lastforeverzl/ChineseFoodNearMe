@@ -15,6 +15,7 @@ import timber.log.Timber;
 public class ServiceGenerator {
 
     public static final String API_BASE_URL = "https://api.yelp.com/";
+    public static final String DIRECTION_API_BASE_URL = "https://maps.googleapis.com/maps/api/directions";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
             .addInterceptor(logInterceptor());
@@ -25,12 +26,30 @@ public class ServiceGenerator {
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
 
+//    private static Retrofit.Builder direction_builder =
+//            new Retrofit.Builder()
+//                    .baseUrl(DIRECTION_API_BASE_URL)
+//                    .addConverterFactory(GsonConverterFactory.create())
+//                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create());
+
     private static Retrofit retrofit = builder.build();
 
     public static YelpFusionAuthService getAccessToken() {
         builder.client(httpClient.build());
         retrofit = builder.build();
         return retrofit.create(YelpFusionAuthService.class);
+    }
+
+//    public static GoogleDirectionApiService createGoogleDirectionService() {
+//        direction_builder.client(httpClient.build());
+//        retrofit = direction_builder.build();
+//        return retrofit.create(GoogleDirectionApiService.class);
+//    }
+
+    public static <S> S createService(Class<S> serviceClass) {
+        builder.client(httpClient.build());
+        retrofit = builder.build();
+        return retrofit.create(serviceClass);
     }
 
     public static <S> S createService(Class<S> serviceClass, final AccessToken authToken) {

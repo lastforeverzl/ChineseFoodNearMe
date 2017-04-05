@@ -22,6 +22,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.zackyzhang.chinesefoodnearme.App;
 import com.zackyzhang.chinesefoodnearme.BusinessDetailsLayout;
 import com.zackyzhang.chinesefoodnearme.MapBitmapCache;
@@ -32,6 +33,7 @@ import com.zackyzhang.chinesefoodnearme.network.entity.SearchResponse;
 import com.zackyzhang.chinesefoodnearme.transition.ScaleDownImageTransition;
 import com.zackyzhang.chinesefoodnearme.transition.TransitionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -158,6 +160,17 @@ public class MapFragment extends MvpFragment<MapFragmentContract.View, MapFragme
         detailsScene = null;
     }
 
+    @Override
+    public void drawPolylinesOnMap(ArrayList<LatLng> polylines) {
+        mapOverlayLayout.addPolyline(polylines);
+    }
+
+    @Override
+    public void updateMapZoomAndRegion(LatLng northeastLatLng, LatLng southwestLatLng, String duration) {
+        mapOverlayLayout.animateCamera(new LatLngBounds(southwestLatLng, northeastLatLng));
+        mapOverlayLayout.setOnCameraIdleListener(() -> mapOverlayLayout.drawStartAndFinishMarker(duration));
+    }
+
     private void notifyLayoutAfterBackPress(final int childPosition) {
         containerLayout.removeAllViews();
         containerLayout.addView(recyclerView);
@@ -193,6 +206,17 @@ public class MapFragment extends MvpFragment<MapFragmentContract.View, MapFragme
     public void onPlaceClicked(View sharedImage, String transitionName, int position) {
         currentTransitionName = transitionName;
         detailsScene = BusinessDetailsLayout.showScene(getActivity(), containerLayout, sharedImage, currentTransitionName, mBusinesses.get(position));
+        getRoutePointsAndAnimateMap(position);
+        animateMap();
+    }
+
+    private void getRoutePointsAndAnimateMap(int position) {
+        presenter.getRoutePoints(mLastLocation, position);
+    }
+
+    private void animateMap() {
+        mapOverlayLayout.setOnCameraIdleListener(null);
+        mapOverlayLayout.hideAllMarkers();
     }
 
     @Override
