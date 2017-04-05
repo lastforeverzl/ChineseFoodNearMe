@@ -75,7 +75,6 @@ public class PulseMarkerView  extends MarkerView {
 
     private void drawBackground(final Canvas canvas) {
         canvas.drawCircle(size, size, size, backgroundPaint);
-//        canvas.drawCircle(point.x, point.y, size, backgroundPaint);
     }
 
     private void setupSizes(final Context context) {
@@ -111,7 +110,6 @@ public class PulseMarkerView  extends MarkerView {
 
     @Override
     public void setLayoutParams(final ViewGroup.LayoutParams params) {
-        Log.d(TAG, "point.x: " + point.x + " point.y: " + point.y);
         FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         frameParams.width = (int)GuiUtils.dpToPx(context, 44);
         frameParams.height = (int)GuiUtils.dpToPx(context, 44);

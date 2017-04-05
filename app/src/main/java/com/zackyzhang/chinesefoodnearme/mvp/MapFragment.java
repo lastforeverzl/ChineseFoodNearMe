@@ -28,8 +28,7 @@ import com.zackyzhang.chinesefoodnearme.BusinessDetailsLayout;
 import com.zackyzhang.chinesefoodnearme.MapBitmapCache;
 import com.zackyzhang.chinesefoodnearme.R;
 import com.zackyzhang.chinesefoodnearme.maps.PulseOverlayLayout;
-import com.zackyzhang.chinesefoodnearme.network.entity.Business;
-import com.zackyzhang.chinesefoodnearme.network.entity.SearchResponse;
+import com.zackyzhang.chinesefoodnearme.data.entity.Business;
 import com.zackyzhang.chinesefoodnearme.transition.ScaleDownImageTransition;
 import com.zackyzhang.chinesefoodnearme.transition.TransitionUtils;
 
@@ -49,7 +48,6 @@ public class MapFragment extends MvpFragment<MapFragmentContract.View, MapFragme
     public static final String TAG = "MapFragment";
 
     private GoogleApiClient mGoogleApiClient;
-    private SearchResponse mSearchResponse;
     private Location mLastLocation;
     private List<Business> mBusinesses;
     private GoogleMap mMap;
@@ -122,7 +120,6 @@ public class MapFragment extends MvpFragment<MapFragmentContract.View, MapFragme
     @Override
     public void provideBusinessData(List<Business> places) {
         mBusinesses = places;
-        Log.d(TAG, "provideBusinessData: first business name: " + mBusinesses.size());
     }
 
     @Override
@@ -222,10 +219,8 @@ public class MapFragment extends MvpFragment<MapFragmentContract.View, MapFragme
     @Override
     public void onBackPressed() {
         if (detailsScene != null) {
-            Log.d("FragmentBackStack", "detailsScene != null");
             presenter.onBackPressedWithScene();
         } else {
-            Log.d("FragmentBackStack", "detailsScene == null");
             ((MainActivity) getActivity()).superOnBackPressed();
         }
     }

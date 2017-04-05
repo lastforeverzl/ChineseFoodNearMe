@@ -17,11 +17,12 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.zackyzhang.chinesefoodnearme.App;
-import com.zackyzhang.chinesefoodnearme.GoogleApiHelper;
+import com.zackyzhang.chinesefoodnearme.network.GoogleApiHelper;
 import com.zackyzhang.chinesefoodnearme.R;
-import com.zackyzhang.chinesefoodnearme.data.BusinessDataProvider;
+
+import butterknife.BindView;
+import me.wangyuwei.loadingview.LoadingView;
 
 /**
  * Created by lei on 3/29/17.
@@ -36,12 +37,15 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     private GoogleApiClient mGoogleApiClient;
     private GoogleMap mMap;
     private Location mLastLocation;
-    private LatLngBounds mLatLngBounds;
+
+    @BindView(R.id.loading_view)
+    LoadingView mLoadingView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mLoadingView.start();
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
@@ -73,7 +77,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mLastLocation != null) {
                 LatLng currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-                presenter.provideMapLatLngBounds(currentLocation);
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
                 mMap.setOnMapLoadedCallback(() -> mMap.snapshot(presenter::saveBitmap));
             }
@@ -102,18 +105,13 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     }
 
     @Override
-    public void setMapLatLngBounds(LatLngBounds latLngBounds) {
-        this.mLatLngBounds = latLngBounds;
-    }
-
-    @Override
     public void dataFinished() {
         navigateToMapFragment();
     }
 
     private void navigateToMapFragment() {
-        Log.d(TAG, "At the end of MainActivity, total number of SearchResponse: " + BusinessDataProvider.instance().getSearchResponse().getTotal());
         if (getSupportFragmentManager().findFragmentByTag(MapFragment.TAG) == null) {
+            mLoadingView.stop();
             getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
@@ -148,13 +146,11 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
         if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
             triggerFragmentBackPress(getSupportFragmentManager().getBackStackEntryCount());
         } else {
-            Log.d("FragmentBackStack", "call activity finish");
             finish();
         }
     }
 
     private void triggerFragmentBackPress(final int count) {
-        Log.d("FragmentBackStack", "trigger: " + getSupportFragmentManager().getBackStackEntryAt(count - 1).getName());
         ((MvpFragment)getSupportFragmentManager().findFragmentByTag(getSupportFragmentManager().getBackStackEntryAt(count - 1).getName())).onBackPressed();
     }
 

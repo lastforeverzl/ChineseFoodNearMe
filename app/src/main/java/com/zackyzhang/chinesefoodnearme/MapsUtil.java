@@ -4,7 +4,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
 
-import com.zackyzhang.chinesefoodnearme.network.entity.Bounds;
+import com.zackyzhang.chinesefoodnearme.data.entity.Bounds;
 
 /**
  * Created by lei on 3/29/17.

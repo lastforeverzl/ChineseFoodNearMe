@@ -3,7 +3,7 @@ package com.zackyzhang.chinesefoodnearme.mvp;
 import android.location.Location;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.zackyzhang.chinesefoodnearme.network.entity.Business;
+import com.zackyzhang.chinesefoodnearme.data.entity.Business;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -24,8 +24,7 @@
             android:id="@+id/headerImage"
             android:layout_width="match_parent"
             android:layout_height="220dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/monkey_forest_1" />
+            android:scaleType="fitXY"/>
 
         <TextView
             android:id="@+id/title"

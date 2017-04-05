@@ -1,4 +1,4 @@
-package com.zackyzhang.chinesefoodnearme;
+package com.zackyzhang.chinesefoodnearme.network;
 
 import android.content.Context;
 import android.location.Location;

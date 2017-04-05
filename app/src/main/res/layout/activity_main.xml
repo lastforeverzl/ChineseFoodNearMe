@@ -28,4 +28,14 @@
 
     </LinearLayout>
 
+    <me.wangyuwei.loadingview.LoadingView
+        android:id="@+id/loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lv_duration="4"
+        app:lv_start_color="#FC4D04"
+        app:lv_end_color="#FC4D04"
+        app:lv_internal_radius="8dp"
+        app:lv_external_radius="60dp"/>
+
 </android.support.design.widget.CoordinatorLayout>

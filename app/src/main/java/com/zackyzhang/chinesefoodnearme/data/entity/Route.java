@@ -1,4 +1,4 @@
-package com.zackyzhang.chinesefoodnearme.network.entity;
+package com.zackyzhang.chinesefoodnearme.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -15,7 +15,7 @@ public class Route {
     @SerializedName("overview_polyline")
     Polyline polyline;
     @SerializedName("bounds")
-    com.zackyzhang.chinesefoodnearme.network.entity.Bounds bounds;
+    com.zackyzhang.chinesefoodnearme.data.entity.Bounds bounds;
 
     public List<Leg> getLegs() {
         return legs;
@@ -25,7 +25,7 @@ public class Route {
         return bounds;
     }
 
-    public com.zackyzhang.chinesefoodnearme.network.entity.Polyline getOverviewPolyline() {
+    public com.zackyzhang.chinesefoodnearme.data.entity.Polyline getOverviewPolyline() {
         return polyline;
     }
 }

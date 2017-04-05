@@ -1,6 +1,6 @@
 package com.zackyzhang.chinesefoodnearme.network;
 
-import com.zackyzhang.chinesefoodnearme.network.entity.SearchResponse;
+import com.zackyzhang.chinesefoodnearme.data.entity.SearchResponse;
 
 import java.util.Map;
 

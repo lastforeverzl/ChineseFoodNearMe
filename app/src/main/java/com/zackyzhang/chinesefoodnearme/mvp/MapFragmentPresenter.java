@@ -6,15 +6,11 @@ import android.util.Log;
 import com.google.maps.android.PolyUtil;
 import com.zackyzhang.chinesefoodnearme.MapsUtil;
 import com.zackyzhang.chinesefoodnearme.data.BusinessDataProvider;
-import com.zackyzhang.chinesefoodnearme.network.GoogleDirectionApiService;
-import com.zackyzhang.chinesefoodnearme.network.ServiceGenerator;
-import com.zackyzhang.chinesefoodnearme.network.entity.Bounds;
-import com.zackyzhang.chinesefoodnearme.network.entity.Route;
+import com.zackyzhang.chinesefoodnearme.data.entity.Bounds;
+import com.zackyzhang.chinesefoodnearme.data.entity.Route;
+import com.zackyzhang.chinesefoodnearme.network.ApiService;
 
 import java.util.ArrayList;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by lei on 3/29/17.
@@ -22,12 +18,15 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MapFragmentPresenter extends MvpPresenter<MapFragmentContract.View> implements MapFragmentContract.Presenter {
 
-    private static final String GOOGLE_DIRECTION_BASE_URL = "https://maps.googleapis.com/maps/api/directions/json";
-
     private static final String TAG = "MapFragmentPresenter";
     private static final int RADIUS = 16093;
     private BusinessDataProvider mBusinessDataProvider = BusinessDataProvider.instance();
-    private GoogleDirectionApiService mGoogleDirectionApiService;
+    private ApiService mApiService;
+
+    public MapFragmentPresenter() {
+        mApiService = ApiService.instance();
+        Log.d(TAG, "ApiService id: " + mApiService.toString());
+    }
 
     @Override
     public void provideBusinessData() {
@@ -48,14 +47,11 @@ public class MapFragmentPresenter extends MvpPresenter<MapFragmentContract.View>
     public void getRoutePoints(Location current, int position) {
         String original = current.getLatitude() + "," + current.getLongitude();
         String destination = mBusinessDataProvider.getLatByPosition(position) + "," + mBusinessDataProvider.getLngByPosition(position);
-        mGoogleDirectionApiService = ServiceGenerator.createService(GoogleDirectionApiService.class);
-        mGoogleDirectionApiService.getDirections(GOOGLE_DIRECTION_BASE_URL, original, destination)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+
+        mApiService.getGoogleMapDirections(original, destination)
                 .subscribe(directions -> {
                     Route route = directions.getRoutes().get(0);
                     String duration = route.getLegs().get(0).getDuration().getTimeString();
-                    Log.d(TAG, directions.getRoutes().get(0).getOverviewPolyline().getPoints());
                     updateMapZoomAndRegion(route.getBounds(), duration);
                     providePolylineToDraw(route.getOverviewPolyline().getPoints());
                 });

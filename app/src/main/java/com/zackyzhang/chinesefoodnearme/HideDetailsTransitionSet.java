@@ -27,7 +27,6 @@ public class HideDetailsTransitionSet extends TransitionSet {
         this.transitionName = transitionName;
         this.from = from;
         this.to = to;
-//        addTransition(textResize());
         addTransition(shared());
     }
 
@@ -39,9 +38,6 @@ public class HideDetailsTransitionSet extends TransitionSet {
         return transitionName + CARD_VIEW_TRANSITION_NAME;
     }
 
-    private Transition textResize() {
-        return null;
-    }
 
     private Transition shared() {
         Log.d("hideDetail", from.toString());

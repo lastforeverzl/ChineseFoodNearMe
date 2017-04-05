@@ -2,6 +2,8 @@ package com.zackyzhang.chinesefoodnearme;
 
 import android.app.Application;
 
+import com.zackyzhang.chinesefoodnearme.network.GoogleApiHelper;
+
 import timber.log.Timber;
 
 /**

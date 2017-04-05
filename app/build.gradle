@@ -70,7 +70,7 @@ dependencies {
     apt 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.google.maps.android:android-maps-utils:0.5'
     compile 'com.squareup.picasso:picasso:2.5.2'
-
     compile 'org.parceler:parceler-api:1.1.1'
     apt 'org.parceler:parceler:1.1.1'
+    compile 'me.wangyuwei:LoadingiVew:1.0.5'
 }

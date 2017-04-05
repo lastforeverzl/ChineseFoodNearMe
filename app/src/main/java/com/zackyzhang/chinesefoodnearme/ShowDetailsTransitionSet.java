@@ -25,7 +25,6 @@ public class ShowDetailsTransitionSet extends TransitionSet {
         this.transitionName = transitionName;
         this.from = from;
         this.to = to;
-//        addTransition(textResize());
         addTransition(slide());
         addTransition(shared());
     }
@@ -36,10 +35,6 @@ public class ShowDetailsTransitionSet extends TransitionSet {
 
     private String cardviewTransitionName() {
         return transitionName + CARD_VIEW_TRANSITION_NAME;
-    }
-
-    private Transition textResize() {
-        return null;
     }
 
     private Transition slide() {

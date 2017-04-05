@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.zackyzhang.chinesefoodnearme.network.entity.Business;
+import com.zackyzhang.chinesefoodnearme.data.entity.Business;
 
 /**
  * Created by lei on 3/30/17.
@@ -15,10 +15,9 @@ import com.zackyzhang.chinesefoodnearme.network.entity.Business;
 
 public class PulseOverlayLayout extends MapOverlayLayout {
     private static final String TAG = "PulseOverlayLayout";
-    private static final int ANIMATION_DELAY_FACTOR = 100;
+    private static final int ANIMATION_DELAY_FACTOR = 50;
 
     private int scaleAnimationDelay = 100;
-    private PulseMarkerView startMarker;
     private TravelTimeMarkerView finishMarker;
 
     public PulseOverlayLayout(Context context) {

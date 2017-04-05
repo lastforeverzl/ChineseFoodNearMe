@@ -1,8 +1,8 @@
-package com.zackyzhang.chinesefoodnearme.network.entity;
+package com.zackyzhang.chinesefoodnearme.data.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Southwest {
+public class Northeast {
 
     @SerializedName("lat") String lat;
     @SerializedName("lng") String lng;
@@ -11,12 +11,12 @@ public class Southwest {
         return lat;
     }
 
-    public String getLng() {
-        return lng;
-    }
-
     public Double getLatD() {
         return Double.parseDouble(lat);
+    }
+
+    public String getLng() {
+        return lng;
     }
 
     public void setLat(final String lat) {

@@ -1,6 +1,6 @@
 package com.zackyzhang.chinesefoodnearme.network;
 
-import com.zackyzhang.chinesefoodnearme.network.entity.Directions;
+import com.zackyzhang.chinesefoodnearme.data.entity.Directions;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;

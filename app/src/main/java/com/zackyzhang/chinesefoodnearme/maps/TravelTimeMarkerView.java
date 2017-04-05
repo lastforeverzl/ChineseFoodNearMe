@@ -43,7 +43,6 @@ public class TravelTimeMarkerView extends MarkerView {
         setupSizes(context);
         setupScaleAnimation(context);
         setupBackgroundPaint(context);
-//        setupStrokeBackgroundPaint(context);
         setupTextPaint(context);
         setupShowAnimatorSet();
         setupHideAnimatorSet();
@@ -58,20 +57,17 @@ public class TravelTimeMarkerView extends MarkerView {
     @Override
     protected void onDraw(final Canvas canvas) {
         drawBackground(canvas);
-//        drawStrokeBackground(canvas);
         drawText(canvas);
         super.onDraw(canvas);
     }
 
     private void drawBackground(final Canvas canvas) {
         canvas.drawCircle(size, size, size, backgroundPaint);
-//        canvas.drawCircle(point.x, point.y, size, backgroundPaint);
     }
 
     private void drawText(final Canvas canvas) {
         if(text != null && !TextUtils.isEmpty(text))
             canvas.drawText(text, size, (size - ((textPaint.descent() + textPaint.ascent()) / 2)), textPaint);
-//            canvas.drawText(text, point.x, (point.y - ((textPaint.descent() + textPaint.ascent()) / 2)), textPaint);
     }
 
     private void setupSizes(final Context context) {
@@ -101,7 +97,7 @@ public class TravelTimeMarkerView extends MarkerView {
     private void setupShowAnimatorSet() {
         Animator animatorScaleX = ObjectAnimator.ofFloat(this, View.SCALE_X, 1.5f, 1.f);
         Animator animatorScaleY = ObjectAnimator.ofFloat(this, View.SCALE_Y, 1.5f, 1.f);
-        Animator animator = ObjectAnimator.ofFloat(this, View.ALPHA, 0.f, 1.f).setDuration(300);
+        Animator animator = ObjectAnimator.ofFloat(this, View.ALPHA, 0.f, 1.f).setDuration(100);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(final Animator animation) {
@@ -117,7 +113,7 @@ public class TravelTimeMarkerView extends MarkerView {
     private void setupHideAnimatorSet() {
         Animator animatorScaleX = ObjectAnimator.ofFloat(this, View.SCALE_X, 1.0f, 0.f);
         Animator animatorScaleY = ObjectAnimator.ofFloat(this, View.SCALE_Y, 1.0f, 0.f);
-        Animator animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1.f, 0.f).setDuration(300);
+        Animator animator = ObjectAnimator.ofFloat(this, View.ALPHA, 1.f, 0.f).setDuration(100);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationStart(final Animator animation) {

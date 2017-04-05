@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.zackyzhang.chinesefoodnearme.network.entity.Business;
+import com.zackyzhang.chinesefoodnearme.data.entity.Business;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

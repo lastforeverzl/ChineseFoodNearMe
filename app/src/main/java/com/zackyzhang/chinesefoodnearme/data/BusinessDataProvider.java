@@ -3,8 +3,8 @@ package com.zackyzhang.chinesefoodnearme.data;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.maps.android.SphericalUtil;
-import com.zackyzhang.chinesefoodnearme.network.entity.Business;
-import com.zackyzhang.chinesefoodnearme.network.entity.SearchResponse;
+import com.zackyzhang.chinesefoodnearme.data.entity.Business;
+import com.zackyzhang.chinesefoodnearme.data.entity.SearchResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +22,6 @@ public class BusinessDataProvider {
 
     private SearchResponse BusinessData;
     private List<Business> mBusinesses;
-    private int radius;
-    private LatLng center;
 
     public BusinessDataProvider() {
     }
