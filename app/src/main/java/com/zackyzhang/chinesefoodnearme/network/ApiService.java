@@ -48,6 +48,7 @@ public class ApiService {
     public Observable<SearchResponse> getBusinessSearch(AccessToken accessToken, double currentLatitude, double currentLongitude) {
         Map<String, String> params = new HashMap<>();
         params.put("term", "chinese food");
+        params.put("radius", "16093");
         params.put("limit", "50");
         params.put("sort_by", "distance");
         params.put("open_now", "true");
