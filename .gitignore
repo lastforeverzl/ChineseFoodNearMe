@@ -39,4 +39,3 @@ obj/
 app/libs/
 app/src/main/res/playstore/
 gradle.properties
-local.properties
