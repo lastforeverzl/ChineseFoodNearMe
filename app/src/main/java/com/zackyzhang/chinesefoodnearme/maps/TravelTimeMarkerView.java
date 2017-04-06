@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -51,7 +50,6 @@ public class TravelTimeMarkerView extends MarkerView {
     public TravelTimeMarkerView(final Context context, final LatLng latLng, final Point point, String duration) {
         this(context, latLng, point);
         text = duration;
-        Log.d(TAG, text);
     }
 
     @Override
@@ -72,7 +70,6 @@ public class TravelTimeMarkerView extends MarkerView {
 
     private void setupSizes(final Context context) {
         size = GuiUtils.dpToPx(context, 40) / 2;
-        Log.d(TAG, "size: " + size);
     }
 
     private void setupScaleAnimation(final Context context) {
@@ -144,7 +141,6 @@ public class TravelTimeMarkerView extends MarkerView {
 
     @Override
     public void setLayoutParams(final ViewGroup.LayoutParams params) {
-        Log.d(TAG, "point.x: " + point.x + " point.y: " + point.y);
         FrameLayout.LayoutParams frameParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
         frameParams.width = (int)GuiUtils.dpToPx(context, 44);
         frameParams.height = (int)GuiUtils.dpToPx(context, 44);

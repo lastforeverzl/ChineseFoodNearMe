@@ -1,7 +1,6 @@
 package com.zackyzhang.chinesefoodnearme.mvp;
 
 import android.location.Location;
-import android.util.Log;
 
 import com.google.maps.android.PolyUtil;
 import com.zackyzhang.chinesefoodnearme.MapsUtil;
@@ -25,7 +24,6 @@ public class MapFragmentPresenter extends MvpPresenter<MapFragmentContract.View>
 
     public MapFragmentPresenter() {
         mApiService = ApiService.instance();
-        Log.d(TAG, "ApiService id: " + mApiService.toString());
     }
 
     @Override

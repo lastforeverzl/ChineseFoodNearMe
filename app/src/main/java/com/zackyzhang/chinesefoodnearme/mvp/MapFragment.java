@@ -64,7 +64,6 @@ public class MapFragment extends MvpFragment<MapFragmentContract.View, MapFragme
 
     public static Fragment newInstance(Context context) {
         MapFragment fragment = new MapFragment();
-        Log.d(TAG, "run Bitmap transition");
         ScaleDownImageTransition transition = new ScaleDownImageTransition(context, MapBitmapCache.instance().getBitmap());
         transition.addTarget(context.getString(R.string.mapPlaceholderTransition));
         transition.setDuration(600);
@@ -76,7 +75,6 @@ public class MapFragment extends MvpFragment<MapFragmentContract.View, MapFragme
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient(null);
-        Log.d(TAG, mGoogleApiClient.toString());
         getBusinessData();
         setupMapFragment();
         setupRecyclerView();
@@ -104,7 +102,6 @@ public class MapFragment extends MvpFragment<MapFragmentContract.View, MapFragme
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Log.d(TAG, "onMapReady");
 
         mapOverlayLayout.setupMap(googleMap);
         presenter.moveMapAndAddMarker();

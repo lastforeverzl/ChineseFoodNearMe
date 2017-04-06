@@ -30,7 +30,6 @@ public class PulseOverlayLayout extends MapOverlayLayout {
 
     public void createAndShowMarker(final int position, Business.CoordinatesBean coordinates) {
         LatLng latLng = new LatLng(coordinates.getLatitude(), coordinates.getLongitude());
-        Log.d(TAG, latLng.toString());
         PulseMarkerView marker = createPulseMarkerView(position, googleMap.getProjection().toScreenLocation(latLng), latLng);
         marker.showWithDelay(scaleAnimationDelay);
         scaleAnimationDelay += ANIMATION_DELAY_FACTOR;

@@ -52,13 +52,11 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API).build();
-        Log.d(TAG, mGoogleApiClient.toString());
     }
 
     public void connect() {
         if (mGoogleApiClient != null) {
             mGoogleApiClient.connect();
-            Timber.tag(TAG).d("connect: " + mGoogleApiClient.toString());
         }
     }
 
@@ -76,13 +74,11 @@ public class GoogleApiHelper implements GoogleApiClient.ConnectionCallbacks, Goo
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.d(TAG, "onConnectionSuspended: googleApiClient.connect()");
         mGoogleApiClient.connect();
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed: connectionResult.toString() = " + connectionResult.toString());
     }
 
     @Override

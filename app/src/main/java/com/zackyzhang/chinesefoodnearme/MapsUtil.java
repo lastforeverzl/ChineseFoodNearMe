@@ -1,7 +1,6 @@
 package com.zackyzhang.chinesefoodnearme;
 
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.zackyzhang.chinesefoodnearme.data.entity.Bounds;
@@ -19,10 +18,6 @@ public class MapsUtil {
         double southwestLat = bounds.getSouthwest().getLatD();
         double northeastLat = bounds.getNortheast().getLatD();
         double updatedLat = LATITUDE_INCREASE_FACTOR * Math.abs(northeastLat - southwestLat);
-        Log.d("MapUtil", "southwestLat: " + southwestLat);
-        Log.d("MapUtil", "northeastLat: " + northeastLat);
-        Log.d("MapUtil", "updatedLat: " + updatedLat);
-        Log.d("MapUtil", "southwestLat - updatedLat: " + (southwestLat - updatedLat));
         return String.valueOf(southwestLat - updatedLat);
     }
 

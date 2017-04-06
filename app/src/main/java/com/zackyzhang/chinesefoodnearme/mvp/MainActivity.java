@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -18,8 +17,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.zackyzhang.chinesefoodnearme.App;
-import com.zackyzhang.chinesefoodnearme.network.GoogleApiHelper;
 import com.zackyzhang.chinesefoodnearme.R;
+import com.zackyzhang.chinesefoodnearme.network.GoogleApiHelper;
 
 import butterknife.BindView;
 import me.wangyuwei.loadingview.LoadingView;
@@ -51,7 +50,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
         mapFragment.getMapAsync(this);
 
         mGoogleApiClient = App.getGoogleApiHelper().getGoogleApiClient(this);
-        Log.d(TAG, mGoogleApiClient.toString());
     }
 
     @Override
@@ -84,7 +82,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     }
 
     private void getBusinessData() {
-        Log.d(TAG, "currentLocation: " + mLastLocation.getLatitude() + " " + mLastLocation.getLongitude());
         presenter.fetchBusinessData(mLastLocation.getLatitude(), mLastLocation.getLongitude());
     }
 
@@ -96,7 +93,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        Log.d(TAG, "Map Ready");
     }
 
     @Override
@@ -139,10 +135,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
 
     @Override
     public void onBackPressed() {
-        Log.d("FragmentBackStack", "getBackStackEntryCount: " + getSupportFragmentManager().getBackStackEntryCount());
-        for (int i = 0; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
-            Log.d("FragmentBackStack", "fragment name in backstack: " + getSupportFragmentManager().getBackStackEntryAt(i).getName());
-        }
         if(getSupportFragmentManager().getBackStackEntryCount() == 1) {
             triggerFragmentBackPress(getSupportFragmentManager().getBackStackEntryCount());
         } else {
@@ -159,7 +151,6 @@ public class MainActivity extends MvpActivity<MainContract.View, MainContract.Pr
         switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d(TAG, "onRequestPermissionsResult called");
                     setUpMap();
                     getBusinessData();
                 } else {

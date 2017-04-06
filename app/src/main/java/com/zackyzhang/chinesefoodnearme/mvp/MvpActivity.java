@@ -29,7 +29,6 @@ public abstract class MvpActivity<V extends MvpContract.MvpView, P extends MvpCo
 
     @Override
     protected void onDestroy() {
-        Log.d("MainActivity", "onDestroy");
         presenter.detachView();
         super.onDestroy();
     }

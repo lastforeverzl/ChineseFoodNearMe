@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 
 public class HorizontalRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
 
-    private static final double COVER_FACTOR = 0.9;
+    private static final double COVER_FACTOR = 0.7;
     private static final int OFFSET_RANGE = 50;
 
     private int[] mItemRanges = null;

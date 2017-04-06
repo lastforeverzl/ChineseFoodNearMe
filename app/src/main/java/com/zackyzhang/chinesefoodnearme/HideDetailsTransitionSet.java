@@ -4,7 +4,6 @@ import android.content.Context;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionSet;
-import android.util.Log;
 import android.view.View;
 
 import com.zackyzhang.chinesefoodnearme.transition.TransitionBuilder;
@@ -40,8 +39,6 @@ public class HideDetailsTransitionSet extends TransitionSet {
 
 
     private Transition shared() {
-        Log.d("hideDetail", from.toString());
-        Log.d("hideDetail", to.toString());
         return new TransitionBuilder(TransitionInflater.from(context).inflateTransition(android.R.transition.move))
                 .link(from.findViewById(R.id.rv_headerImage), to.imageViewPlaceDetails, transitionName)
                 .link(from, to.cardViewContainer, cardviewTransitionName())

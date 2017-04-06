@@ -46,7 +46,6 @@ public class MapOverlayLayout<V extends MarkerView> extends FrameLayout {
     }
 
     public void moveCamera(Location location) {
-        Log.d("MapDetailPresenter", location.toString());
         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12));
     }

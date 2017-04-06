@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -79,7 +78,6 @@ public class PulseMarkerView  extends MarkerView {
 
     private void setupSizes(final Context context) {
         size = GuiUtils.dpToPx(context, 24) / 2;
-        Log.d(TAG, "size: " + size);
     }
 
     private void setupScaleAnimation(final Context context) {

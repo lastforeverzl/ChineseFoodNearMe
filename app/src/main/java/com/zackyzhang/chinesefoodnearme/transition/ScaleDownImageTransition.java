@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
-import timber.log.Timber;
-
 /**
  * Created by lei on 3/30/17.
  */
@@ -37,9 +35,6 @@ public class ScaleDownImageTransition extends Transition {
 
     public ScaleDownImageTransition(Context context, Bitmap bitmap) {
         this(context);
-        if (bitmap == null) {
-            Timber.tag(TAG).d("bitmap is null");
-        }
         this.mBitmap = bitmap;
     }
 
@@ -73,9 +68,6 @@ public class ScaleDownImageTransition extends Transition {
 
             float targetScaleX = (float) endValues.values.get(PROPNAME_SCALE_X);
             float targetScaleY = (float) endValues.values.get(PROPNAME_SCALE_Y);
-
-            Timber.tag(TAG).d("startValues: " + scaleX + ", " + scaleY);
-            Timber.tag(TAG).d("endValues: " + targetScaleX + ", " + targetScaleY);
 
             ObjectAnimator scaleXAnimator = ObjectAnimator.ofFloat(view, View.SCALE_X, targetScaleX, scaleX);
             ObjectAnimator scaleYAnimator = ObjectAnimator.ofFloat(view, View.SCALE_Y, targetScaleY, scaleY);

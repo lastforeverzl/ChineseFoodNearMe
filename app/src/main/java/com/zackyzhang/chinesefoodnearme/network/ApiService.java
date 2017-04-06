@@ -3,6 +3,7 @@ package com.zackyzhang.chinesefoodnearme.network;
 import com.zackyzhang.chinesefoodnearme.data.entity.Directions;
 import com.zackyzhang.chinesefoodnearme.data.entity.SearchResponse;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -44,7 +45,14 @@ public class ApiService {
                     .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<SearchResponse> getBusinessSearch(AccessToken accessToken, Map<String, String> params) {
+    public Observable<SearchResponse> getBusinessSearch(AccessToken accessToken, double currentLatitude, double currentLongitude) {
+        Map<String, String> params = new HashMap<>();
+        params.put("term", "chinese food");
+        params.put("limit", "50");
+        params.put("sort_by", "distance");
+        params.put("open_now", "true");
+        params.put("latitude", String.valueOf(currentLatitude));
+        params.put("longitude", String.valueOf(currentLongitude));
         mYelpFusionApiService = ServiceGenerator.createService(YelpFusionApiService.class, accessToken);
         return mYelpFusionApiService.getBusinessSearch(params)
                 .subscribeOn(Schedulers.io())
